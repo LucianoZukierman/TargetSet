@@ -2,15 +2,15 @@ function init()
     
          setUpRefs()
 
-'          focusedTargetSet1 = createObject("roSGNode", "TargetSet")
-'           focusedTargetSet2 = createObject("roSGNode", "TargetSet")
-'           focusedTargetSet3 = createObject("roSGNode", "TargetSet")
-'           focusedTargetSet4 = createObject("roSGNode", "TargetSet")
-'           m.targetList.focusedTargetSet = [ focusedTargetSet1, focusedTargetSet2, focusedTargetSet3, focusedTargetSet4 ]
+         focusedTargetSet1 = createObject("roSGNode", "TargetSet")
+          focusedTargetSet2 = createObject("roSGNode", "TargetSet")
+          focusedTargetSet3 = createObject("roSGNode", "TargetSet")
+          focusedTargetSet4 = createObject("roSGNode", "TargetSet")
+        '    m.targetList.focusedTargetSet= [ focusedTargetSet1, focusedTargetSet2, focusedTargetSet3, focusedTargetSet4 ]
 
 
-'         marginLong = 100
-'         marginShort = 24
+        marginLong = 100
+        marginShort = 24
 
 '         focusedTargetSet1.targetRects = [
 '         	                  { x:96,  y:44,  width:1920 -96, height:100 },
@@ -53,39 +53,39 @@ function init()
 
 
 
-'         unfocusedTargetSet = createObject("roSGNode", "TargetSet")
-'         m.targetList.unfocusedTargetSet = unfocusedtargetSet
+        unfocusedTargetSet = createObject("roSGNode", "TargetSet")
+        ' m.targetList.unfocusedTargetSet = unfocusedtargetSet
 
-'         unfocusedTargetSet.targetRects = [
-'             { x:96,  y:44,  width:1920 -96, height:100 },
-'             { x:96,  y:44 + 100 + marginLong,  width:1920 -96, height:100 },
-'             { x:96,  y:(44 + 100 + marginLong) + 100 + marginShort,  width:1920-96, height:100 },
-'             { x:96,  y:((44 + 100 + marginLong) + 100 + marginShort) + 100 + marginShort,  width:1920-96, height:100 }
+        unfocusedTargetSet.targetRects = [
+            { x:96,  y:44,  width:1920 -96, height:100 },
+            { x:96,  y:44 + 100 + marginLong,  width:1920 -96, height:100 },
+            { x:96,  y:(44 + 100 + marginLong) + 100 + marginShort,  width:1920-96, height:100 },
+            { x:96,  y:((44 + 100 + marginLong) + 100 + marginShort) + 100 + marginShort,  width:1920-96, height:100 }
 
-' 				]
-' 	      unfocusedTargetSet.color = "0x00202020AA"
+				]
+	      unfocusedTargetSet.color = "0x00202020AA"
 
-'          m.targetList.targetSet = focusedTargetSet1
-'          m.targetList.showTargetRects = true
-' 	     m.targetList.itemComponentName = "SimpleItemComponent"
+        '  m.targetList.targetSet = focusedTargetSet1
+        '  m.targetList.showTargetRects = true
+	    '  m.targetList.itemComponentName = "SimpleItemComponent"
 
-'         dataModel = setUpDataModel()
-'          m.targetList.content = dataModel
+        ' dataModel = setUpDataModel()
+        '  m.targetList.content = dataModel
 
 
 
-'         m.targetList.setFocus(true)
+        m.targetList.setFocus(true)
 
    end function
 
-    ' function setUpDataModel()
-    '     contentRoot = createObject("roSGNode", "ContentNode")
-	'       for i = 0 to 1
-    '         child = contentRoot.createChild("ContentNode")
-    '         child.title = "Item " + i.tostr()
-    '     end for
-    '     return contentRoot
-    ' end function
+    function setUpDataModel()
+        contentRoot = createObject("roSGNode", "ContentNode")
+	      for i = 0 to 1
+            child = contentRoot.createChild("ContentNode")
+            child.title = "Item " + i.tostr()
+        end for
+        return contentRoot
+    end function
 
     
     sub onFocusedChanged()
@@ -107,24 +107,30 @@ function init()
     end sub
 
     sub setUpTargetRects(childrenContent as object)
-        focusedTargetSet = createObject("roSGNode", "TargetSet")
-        targetRects = focusedTargetSet.targetRects
-
-        m.targetList.focusedTargetSet = []
-
+        
+       array = []
         for i = 0 to childrenContent.count() - 1
-            
+            targetSet = createObject("roSGNode", "TargetSet")
             targetRects = getFirstTargetRectsItem(childrenContent, i)
-            m.targetList.focusedTargetSet.push(targetRects)
-
+            targetSet.targetRects = targetRects
+            targetSet.focusIndex = i
+            targetSet.color = "0x00202020AA"
+            array.push(targetSet)
         end for
+        m.targetList.targetSet = targetSet
+        m.targetList.focusedTargetSet = array
+        m.targetList.setFocus(true)
+        m.targetList.showTargetRects = true
+        m.targetList.itemComponentName = "SimpleItemComponent"
+       dataModel = setUpDataModel()
+        m.targetList.content = dataModel
+
 
         ' setUpList(firstTargetRects)
     end sub
 
 
 function getFirstTargetRectsItem(childrenContent as object, focusIndex as integer) as object
-    
     
     leftMargin = 96
     targetRects = []

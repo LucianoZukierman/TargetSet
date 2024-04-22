@@ -6,55 +6,55 @@ function init()
           focusedTargetSet2 = createObject("roSGNode", "TargetSet")
           focusedTargetSet3 = createObject("roSGNode", "TargetSet")
           focusedTargetSet4 = createObject("roSGNode", "TargetSet")
-          m.targetList.focusedTargetSet = [ focusedTargetSet1, focusedTargetSet2, focusedTargetSet3, focusedTargetSet4 ]
+        '    m.targetList.focusedTargetSet= [ focusedTargetSet1, focusedTargetSet2, focusedTargetSet3, focusedTargetSet4 ]
 
 
         marginLong = 100
         marginShort = 24
 
-        focusedTargetSet1.targetRects = [
-        	                  { x:96,  y:44,  width:1920 -96, height:100 },
-	                          { x:96,  y:44 + 100 + marginLong,  width:1920 -96, height:100 },
-                              { x:96,  y:(44 + 100 + marginLong) + 100 + marginShort,  width:1920-96, height:100 },
-	                          { x:96,  y:((44 + 100 + marginLong) + 100 + marginShort) + 100 + marginShort,  width:1920-96, height:100 }
-				]
-	      focusedTargetSet1.color = "0x00202020AA"
-          focusedTargetSet1.focusIndex = 0
+'         focusedTargetSet1.targetRects = [
+'         	                  { x:96,  y:44,  width:1920 -96, height:100 },
+' 	                          { x:96,  y:44 + 100 + marginLong,  width:1920 -96, height:100 },
+'                               { x:96,  y:(44 + 100 + marginLong) + 100 + marginShort,  width:1920-96, height:100 },
+' 	                          { x:96,  y:((44 + 100 + marginLong) + 100 + marginShort) + 100 + marginShort,  width:1920-96, height:100 }
+' 				]
+' 	      focusedTargetSet1.color = "0x00202020AA"
+'           focusedTargetSet1.focusIndex = 0
 
-          focusedTargetSet2.targetRects = [
-            { x:96,  y:-100 - 44,  width:1920 -96, height:100 },
-            { x:96,  y:44 ,  width:1920 -96, height:100 },
-            { x:96,  y:(44 + 100 + marginLong),  width:1920-96, height:100 },
-            { x:96,  y:(44 + 100 + marginLong) + 100 + marginShort,  width:1920-96, height:100 }
-]
-        focusedTargetSet2.color = "0x00202020AA"
-        focusedTargetSet2.focusIndex = 1
+'           focusedTargetSet2.targetRects = [
+'             { x:96,  y:-100 - 44,  width:1920 -96, height:100 },
+'             { x:96,  y:44 ,  width:1920 -96, height:100 },
+'             { x:96,  y:(44 + 100 + marginLong),  width:1920-96, height:100 },
+'             { x:96,  y:(44 + 100 + marginLong) + 100 + marginShort,  width:1920-96, height:100 }
+' ]
+'         focusedTargetSet2.color = "0x00202020AA"
+'         focusedTargetSet2.focusIndex = 1
 
         
-        focusedTargetSet3.targetRects = [
-            { x:96,  y:-100 - 44,  width:1920 -96, height:100 },
-            { x:96,  y:-100 - 44 ,  width:1920 -96, height:100 },
-            { x:96,  y:44,  width:1920-96, height:100 },
-            { x:96,  y:44 + 100 + marginLong,  width:1920-96, height:100 }
-]
-        focusedTargetSet3.color = "0x00202020AA"
-        focusedTargetSet3.focusIndex = 2
+'         focusedTargetSet3.targetRects = [
+'             { x:96,  y:-100 - 44,  width:1920 -96, height:100 },
+'             { x:96,  y:-100 - 44 ,  width:1920 -96, height:100 },
+'             { x:96,  y:44,  width:1920-96, height:100 },
+'             { x:96,  y:44 + 100 + marginLong,  width:1920-96, height:100 }
+' ]
+'         focusedTargetSet3.color = "0x00202020AA"
+'         focusedTargetSet3.focusIndex = 2
 
 
-        focusedTargetSet4.targetRects = [
-            { x:96,  y:-100 - 44,  width:1920 -96, height:100 },
-            { x:96,  y:-100 - 44 ,  width:1920 -96, height:100 },
-            { x:96,  y:-100 - 44 ,  width:1920-96, height:100 },
-            { x:96,  y:44,  width:1920-96, height:100 }
-]
-        focusedTargetSet4.color = "0x00202020AA"
-        focusedTargetSet4.focusIndex = 3
+'         focusedTargetSet4.targetRects = [
+'             { x:96,  y:-100 - 44,  width:1920 -96, height:100 },
+'             { x:96,  y:-100 - 44 ,  width:1920 -96, height:100 },
+'             { x:96,  y:-100 - 44 ,  width:1920-96, height:100 },
+'             { x:96,  y:44,  width:1920-96, height:100 }
+' ]
+'         focusedTargetSet4.color = "0x00202020AA"
+'         focusedTargetSet4.focusIndex = 3
 
 
 
 
         unfocusedTargetSet = createObject("roSGNode", "TargetSet")
-        m.targetList.unfocusedTargetSet = unfocusedtargetSet
+        ' m.targetList.unfocusedTargetSet = unfocusedtargetSet
 
         unfocusedTargetSet.targetRects = [
             { x:96,  y:44,  width:1920 -96, height:100 },
@@ -65,12 +65,12 @@ function init()
 				]
 	      unfocusedTargetSet.color = "0x00202020AA"
 
-         m.targetList.targetSet = focusedTargetSet1
-         m.targetList.showTargetRects = true
-	     m.targetList.itemComponentName = "SimpleItemComponent"
+        '  m.targetList.targetSet = focusedTargetSet1
+        '  m.targetList.showTargetRects = true
+	    '  m.targetList.itemComponentName = "SimpleItemComponent"
 
-        dataModel = setUpDataModel()
-         m.targetList.content = dataModel
+        ' dataModel = setUpDataModel()
+        '  m.targetList.content = dataModel
 
 
 
@@ -107,14 +107,24 @@ function init()
     end sub
 
     sub setUpTargetRects(childrenContent as object)
-        targetRectsArray = []
-
+        
+       targetSetArray = []
         for i = 0 to childrenContent.count() - 1
-            
+            targetSet = createObject("roSGNode", "TargetSet")
             targetRects = getFirstTargetRectsItem(childrenContent, i)
-            targetRectsArray.push(targetRects)
-
+            targetSet.targetRects = targetRects
+            targetSet.focusIndex = i
+            targetSet.color = "0x00202020AA"
+            targetSetArray.push(targetSet)
         end for
+        m.targetList.targetSet = targetSet
+        m.targetList.focusedTargetSet = targetSetArray
+        m.targetList.setFocus(true)
+        m.targetList.showTargetRects = true
+        m.targetList.itemComponentName = "SimpleItemComponent"
+       dataModel = setUpDataModel()
+        m.targetList.content = dataModel
+
 
         ' setUpList(firstTargetRects)
     end sub
