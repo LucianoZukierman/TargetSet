@@ -1,0 +1,171 @@
+'*****************************************************************************
+ ' Init
+ '*****************************************************************************
+
+ '''''''''
+ ' init: FilterList View component
+ '
+ '''''''''
+ sub init()
+    m.top.refs = [
+      "targetList"
+    ]
+  
+    m.yPos = 0
+    m.firtsTargetSet = { x: 0, y: m.yPos, width: 0, height: 0 }
+    m.targetRects = []
+    m.unfocusedTargetRects = []
+  
+    m.top.observers = {
+      "": {
+        "focusedChild": "onFocusedChild"
+      }
+    }
+   end sub
+  
+  
+   '''''''''
+   ' onFocusedChild: focus behavior
+   '
+   '''''''''
+   sub onFocusedChild()
+    if m.top.hasFocus() then Nodes.setFocusOn(m.targetList)
+   end sub
+  
+   '''''''''
+   ' onContent: Filter List Meta-Data
+   '
+   '''''''''
+   sub onContent()
+    m.content = m.top.content
+    m.targetRects = []
+  
+    if Types.isInvalid(m.content) then return
+    setupItemsWidth(m.content, m.top.itemComponentName)
+    m.childrenContent = Nodes.getChildNodes(m.content)
+    if Types.isEqual(m.childrenContent.count(), 0) then return
+  
+    setUpTargetRects()
+    setClippingRect()
+   end sub
+  
+   '''''''''
+   ' setClippingRect: Define clipping rect for targetList
+   '
+   '''''''''
+   sub setClippingRect()
+    m.targetList.clippingRect = [0, 0, m.top.width, m.top.height]
+   end sub
+  
+   '''''''''
+   ' setUpTargetRects: Define main TargetRects using m.childrenContent by getting
+   '                   item width and calculating the xPos for the next targetRect element
+   '
+   '''''''''
+   sub setUpTargetRects()
+    m.margin = m.top.marginX
+  
+    xPos = m.margin
+    m.targetRects.push(m.firtsTargetSet)
+    for each item in m.childrenContent
+      width = item.width
+      m.targetRects.push({ x: xPos, y: m.yPos, width: width, height: m.top.height })
+      xPos += width + m.margin
+    end for
+  
+    m.targetRects.push({ x: xPos, y: m.yPos, width: 0, height: 0 })
+    setUpList()
+   end sub
+  
+   '''''''''
+   ' setUpList: Define the TargetRects for each focused item, if the item is outside the container boundary(m.top.width)
+   '           the targetSet will be redifined, otherwise, the same targetSet will be added to the focusedTargetSet array.
+   '''''''''
+   sub setUpList()
+    focusedArray = []
+    for i = 1 to m.childrenContent.count()
+      targetSet = createObject("roSGNode", "TargetSet")
+      if (m.targetRects[i].x + m.targetRects[i].width) > m.top.width then redefineTargetSet(i)
+      targetSet.targetRects = m.targetRects
+      targetSet.color = m.top.targetSetColor
+      targetSet.focusIndex = i
+      focusedArray.push(targetSet)
+    end for
+  
+    m.targetList.focusedTargetSet = focusedArray
+    m.unfocusedTargetRects = focusedArray
+  
+    ' The unfocusedTargetSet is fetched according to the current focused item,
+    ' using the jumpToFilterItem as an index to get it from the previously defined unfocusedTargetRects variable.
+    if m.top.animateToItem < m.childrenContent.count()
+      animateToItem = m.top.animateToItem
+    else
+      animateToItem = 0
+    end if
+  
+    targetSet = createObject("roSGNode", "TargetSet")
+    targetSet.targetRects = m.unfocusedTargetRects[animateToItem].targetRects
+    targetSet.color = m.top.targetSetColor
+    m.targetList.targetSet = targetSet
+    m.targetList.unfocusedTargetSet = targetSet
+  
+    m.targetList.showTargetRects = true
+  
+    m.targetList.content = m.content
+   end sub
+  
+   '''''''''
+   ' redefineTargetSet: Redefine the targetRects if current item width is outside the container boundary(m.top.width)
+   ' @param {integer} idx
+   '
+   '''''''''
+   sub redefineTargetSet(idx as integer)
+    newTargetRects = []
+    newTargetRects.push(m.firtsTargetSet)
+    xPos = m.margin
+    for i = 1 to m.childrenContent.count()
+      width = m.childrenContent[prevNum(i)].width
+      if i < prevNum(idx)
+        newTargetRects.push({ x: -width, y: m.yPos, width: 0, height: 0 })
+      else
+        newTarget = { x: xPos, y: m.yPos, width: width, height: m.top.height }
+        if i = prevNum(idx)
+          totalWidth = width + m.childrenContent[i].width + (m.margin * 2)
+          if totalWidth > m.top.width
+            newTarget = { x: -width, y: m.yPos, width: 0, height: 0 }
+            width = 0
+            xPos = 0
+          end if
+        end if
+        newTargetRects.push(newTarget)
+        xPos += width + m.margin
+      end if
+    end for
+    newTargetRects.push({ x: xPos, y: m.yPos, width: 0, height: 0 })
+  
+    m.targetRects = newTargetRects
+  
+   end sub
+  
+   function prevNum(num as integer) as integer
+    return num - 1
+   end function
+  
+   function setupItemsWidth(content, itemComponentName) as object
+    for i = 0 to content.getChildCount() - 1
+      item = content.getChild(i)
+  
+      pill = CreateObject("roSGNode", itemComponentName)
+      pill.itemContent = Nodes.createNode("ContentNode", { name: item.name })
+  
+      isSelected = (Types.isValid(item.selected) and item.selected = true)
+      selectedWidth = isSelected ? m.top.selectedExtraWidth : 0
+  
+      if Types.isValid(item.width)
+        item.width = pill.boundingRect().width + selectedWidth
+      else
+        item.addFields({ width: pill.boundingRect().width + selectedWidth })
+      end if
+    end for
+    return content
+   end function
