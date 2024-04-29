@@ -6,7 +6,9 @@ content.update({children: [
     CreateObject("roSGnode", "contentNode"),
     CreateObject("roSGnode", "contentNode"),
     CreateObject("roSGnode", "contentNode"),
-    CreateObject("roSGnode", "contentNode")  
+    CreateObject("roSGnode", "contentNode")  ,
+    ' CreateObject("roSGnode", "contentNode") ,
+    ' CreateObject("roSGnode", "contentNode")  ,
 ]}, true)
 
 m.rows.content = content

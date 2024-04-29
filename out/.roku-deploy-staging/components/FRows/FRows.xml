@@ -11,6 +11,8 @@
         <field id="focusXOffset" type="array" />
         <field id="rowItemSpacing" type="array" />
         <field id="marginTop" type="float" value="44"/>
+        <field id="height" type="float" value="1080"/>
+        <field id="targetRectsArray" type="array"/>
 
     </interface>
 <children>

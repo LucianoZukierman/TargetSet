@@ -1,7 +1,7 @@
 function init()
     
          setUpRefs()
-
+ 
    end function
 
     function setUpDataModel()
@@ -49,7 +49,6 @@ function init()
         m.targetList.itemComponentName = "SimpleItemComponent"
        dataModel = setUpDataModel()
         m.targetList.content = dataModel
-
     end sub
 
 
@@ -60,9 +59,14 @@ function getTargetRectByFocusIndex(childrenContent as object, focusIndex as inte
     yPos= m.top.marginTop
     titleHeight = 100
     margin = 24
+
+    contentHeight= calculateContentHeight(childrenContent,focusIndex, margin)
+
     for i = 0 to childrenContent.count() - 1
-        if i < focusIndex then yPos = -100 - m.top.marginTop
+
+        if i < focusIndex  then yPos = -100 - m.top.marginTop
         if i = focusIndex 
+STOP
             yPos = m.top.marginTop 
             height = 100 + titleHeight
         else height = 100
@@ -78,6 +82,20 @@ function getTargetRectByFocusIndex(childrenContent as object, focusIndex as inte
     return targetRects
 end function
 
+
+function calculateContentHeight(childrenContent as object, focusIndex as integer, margin as integer ) as integer
+    ?"[CONTENTCHILDRE] "; childrenContent.count()
+STOP
+    ?"[FOCUSINDEX] "; focusIndex
+
+
+    contentHeight = 0
+    ' for i = focusIndex to childrenContent.count() - 1
+    
+    
+    ' return contentHeight
+    ' end for
+    end function
 
     function isNode(val as dynamic, subtype = "" as string) as boolean
         return val <> invalid and type(val) = "roSGNode" and (ucase(val.subtype()) = ucase(subtype) or subtype = "")
